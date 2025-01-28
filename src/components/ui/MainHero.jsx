@@ -22,7 +22,7 @@ const MainHero = ({ isDark, toggleDark, setLanguage }) => {
     { name: 'Contact Us', href: '/contact' }
   ];
 
-return (
+  return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0">
