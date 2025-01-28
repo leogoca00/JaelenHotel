@@ -12,5 +12,17 @@ export default defineConfig({
       '@assets': path.resolve(__dirname, './src/assets')
     }
   },
-  assetsInclude: ['**/*.jpg', '**/*.png', '**/*.webp']
+  assetsInclude: ['**/*.jpg', '**/*.png', '**/*.webp'],
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+        inlineDynamicImports: true,
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    }
+  }
 });
