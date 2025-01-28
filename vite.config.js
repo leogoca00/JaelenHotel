@@ -4,8 +4,8 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
+  base: '/JaelenHotel/',
   plugins: [react()],
-  base: '/jaelen-hotel/', // Agregado para GitHub Pages
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
