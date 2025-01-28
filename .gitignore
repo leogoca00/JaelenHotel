@@ -23,7 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Ignorar archivos de video grandes
+# Video files
+src/assets/videos/hero.mp4
 *.mp4
 *.mov
 *.avi
