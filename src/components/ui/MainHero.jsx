@@ -22,30 +22,27 @@ const MainHero = ({ isDark, toggleDark, setLanguage }) => {
     { name: 'Contact Us', href: '/contact' }
   ];
 
-  return (
+return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Video Background */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div style={{padding:'56.25% 0 0 0', position:'relative', height: '100%'}}>
-          <iframe 
-            src="https://player.vimeo.com/video/1051217094?h=1fd2b6935f&badge=0&autopause=0&player_id=0&app_id=58479&background=1&autoplay=1&loop=1&muted=1" 
-            frameBorder="0" 
-            allow="autoplay; fullscreen; picture-in-picture" 
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '100vw',
-              height: '100vh',
-              objectFit: 'cover'
-            }}
-            title="hero"
-          />
-        </div>
+      <div className="absolute inset-0">
+        <iframe 
+          src="https://player.vimeo.com/video/1051217094?h=1fd2b6935f&badge=0&autopause=0&player_id=0&app_id=58479&background=1&autoplay=1&loop=1&muted=1" 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            objectFit: 'cover'
+          }}
+          allow="autoplay; fullscreen; picture-in-picture"
+          title="hero"
+        />
       </div>
 
-      {/* Overlay with gradient */}
+      {/* Overlay with gradient (mantén esto después del video) */}
       <div className="absolute inset-0 bg-gradient-to-b from-luxury-brown-dark/50 via-luxury-brown-dark/30 to-luxury-brown-dark/50" />
 
       {/* Navigation Menu */}
