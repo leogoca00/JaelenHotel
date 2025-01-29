@@ -6,9 +6,10 @@ import Places from './pages/Places';
 import Gallery from './pages/Gallery';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
-import SocorroProject from './pages/SocorroProject';
+import SocorroProject from './pages/SocorroProject'; // Importamos el nuevo componente
 
 const App = () => {
+  // Initialize theme state from localStorage or system preference
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -19,6 +20,7 @@ const App = () => {
   
   const [language, setLanguage] = useState('en');
 
+  // Effect to handle theme changes
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark');
@@ -33,7 +35,7 @@ const App = () => {
   };
 
   return (
-    <Router basename="/JaelenHotel">
+    <Router>
       <Layout 
         isDark={isDark} 
         toggleDark={toggleDark}

@@ -1,153 +1,59 @@
-import React, { useState } from 'react';
-import { Calendar, Sun, Moon, Globe } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useRef, useEffect } from 'react';
+import { Calendar } from 'lucide-react';
+import { AnimatedNavbar } from './AnimatedNavbar';
+import { motion } from 'framer-motion';
 
-const MainHero = ({ isDark, toggleDark, setLanguage }) => {
-  const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+const MainHero = ({ isDark, toggleDark, setLanguage, videoSrc }) => {
+  const videoRef = useRef(null);
 
-  const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'es', name: 'Español' },
-    { code: 'fr', name: 'Français' },
-    { code: 'de', name: 'Deutsch' }
-  ];
-
-  const menuItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Our Places', href: '/places' },
-    { name: 'Gallery', href: '/gallery' },
-    { name: 'Additional Services', href: '/services' },
-    { name: 'Contact Us', href: '/contact' }
-  ];
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [videoSrc]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Video Background */}
-      <div className="absolute inset-0">
-        <iframe 
-          src="https://player.vimeo.com/video/1051217094?h=1fd2b6935f&badge=0&autopause=0&player_id=0&app_id=58479&background=1&autoplay=1&loop=1&muted=1" 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            border: 'none',
-            objectFit: 'cover'
-          }}
-          allow="autoplay; fullscreen; picture-in-picture"
-          title="hero"
-        />
-      </div>
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
 
-      {/* Overlay with gradient (mantén esto después del video) */}
-      <div className="absolute inset-0 bg-gradient-to-b from-luxury-brown-dark/50 via-luxury-brown-dark/30 to-luxury-brown-dark/50" />
-
+      {/* Overlay with enhanced gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-transparent to-luxury-brown-dark/50" />
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black/50" />
+      
       {/* Navigation Menu */}
-      <nav className="absolute top-8 left-0 w-full z-20">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between space-x-8">
-            {/* Logo */}
-            <Link 
-              to="/" 
-              className="text-2xl font-bold text-luxury-cream-light hover:text-luxury-gold-light transition-colors"
-            >
-              Jaelen Hotel
-            </Link>
+      <AnimatedNavbar 
+        isDark={isDark} 
+        toggleDark={toggleDark} 
+        setLanguage={setLanguage}
+      />
 
-            {/* Menu Items */}
-            <div className="flex-1 flex justify-center space-x-8">
-              {menuItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => navigate(item.href)}
-                  className={`
-                    relative px-4 py-2 text-lg font-light
-                    text-luxury-cream-light hover:text-luxury-gold-light
-                    transition-colors duration-300
-                    ${location.pathname === item.href ? 'text-luxury-gold-light' : ''}
-                  `}
-                >
-                  {item.name}
-                  <span className={`
-                    absolute bottom-0 left-0 w-full h-0.5
-                    transform scale-x-0 hover:scale-x-100
-                    transition-transform duration-300
-                    bg-luxury-gold-light
-                  `} />
-                </button>
-              ))}
-            </div>
-
-            {/* Controls Group */}
-            <div className="flex items-center space-x-4">
-              {/* Language Selector */}
-              <div className="relative">
-                <button
-                  onClick={() => setLangMenuOpen(!langMenuOpen)}
-                  className="
-                    p-2 rounded-full
-                    bg-luxury-cream-light/10 hover:bg-luxury-cream-light/20
-                    text-luxury-cream-light hover:text-luxury-gold-light
-                    transition-colors duration-300
-                  "
-                >
-                  <Globe className="w-6 h-6" />
-                </button>
-                
-                {langMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg 
-                    bg-white dark:bg-luxury-brown 
-                    ring-1 ring-luxury-gold/10 dark:ring-luxury-gold-dark/10">
-                    <div className="py-1">
-                      {languages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          onClick={() => {
-                            setLanguage(lang.code);
-                            setLangMenuOpen(false);
-                          }}
-                          className="block w-full text-left px-4 py-2 text-sm
-                            text-luxury-brown dark:text-luxury-cream
-                            hover:bg-luxury-cream dark:hover:bg-luxury-brown-light
-                            transition-colors"
-                        >
-                          {lang.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleDark}
-                className={`
-                  p-2 rounded-full
-                  ${isDark 
-                    ? 'bg-luxury-cream/10 hover:bg-luxury-cream/20' 
-                    : 'bg-luxury-gold/10 hover:bg-luxury-gold/20'
-                  }
-                  ${isDark
-                    ? 'text-luxury-cream hover:text-luxury-gold'
-                    : 'text-luxury-brown hover:text-luxury-gold'
-                  }
-                  transition-all duration-300
-                `}
-              >
-                {isDark ? (
-                  <Sun className="w-6 h-6" />
-                ) : (
-                  <Moon className="w-6 h-6" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Hero Content */}
+      <div className="absolute inset-0 flex items-center justify-center text-center px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="max-w-4xl"
+        >
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-luxury-cream-light">
+            Welcome to Jaelen Hotel
+          </h1>
+          <p className="text-xl md:text-2xl text-luxury-cream">
+            Experience luxury redefined in the heart of sophistication
+          </p>
+        </motion.div>
+      </div>
 
       {/* Booking Button */}
       <div className="absolute top-24 right-8 z-20">
@@ -171,7 +77,8 @@ const MainHero = ({ isDark, toggleDark, setLanguage }) => {
               </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-luxury-brown dark:text-luxury-cream-light mb-1">
+                  <label className="block text-sm font-medium 
+                    text-luxury-brown dark:text-luxury-cream-light mb-1">
                     Check-in Date
                   </label>
                   <input
@@ -184,7 +91,8 @@ const MainHero = ({ isDark, toggleDark, setLanguage }) => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-luxury-brown dark:text-luxury-cream-light mb-1">
+                  <label className="block text-sm font-medium 
+                    text-luxury-brown dark:text-luxury-cream-light mb-1">
                     Check-out Date
                   </label>
                   <input
